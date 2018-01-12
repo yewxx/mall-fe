@@ -1,0 +1,23 @@
+{
+  "name": "mall-fe",
+  "version": "1.0.0",
+  "description": "mall front-end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yewxx/mall-fe.git"
+  },
+  "author": "yewxx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yewxx/mall-fe/issues"
+  },
+  "homepage": "https://github.com/yewxx/mall-fe#readme",
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  }
+}
