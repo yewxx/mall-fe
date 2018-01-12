@@ -1,22 +1,53 @@
 const path = require("path");
 const htmlplugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const extractTextPlugin = require("extract-text-webpack-plugin");
+
+function getHtmlConfig(name) {
+	return {
+		filename: `view/${name}.html`,
+		template: `./src/view/${name}.html`,
+		chunks: ["common", name],
+		hash: true,
+		minify: {
+			removeAttributeQuotes: true
+		}
+	}
+}
 
 const devConfig = {
-	entry: "./src/util/test.js",
+	entry: {
+		"common": "./src/page/common/index.js",
+		"index": "./src/page/index/index.js",
+		"login": "./src/page/login/index.js"
+	},
 	output: {
 		path: path.resolve(__dirname,"./dist"),
-		filename: "bundle.js"
+		filename: "js/[name].js"
+	},
+	module: {
+		rules: [
+			{
+				test: /\.css$/,
+				use: extractTextPlugin.extract({
+					fallback: "style-loader",
+					use: "css-loader"
+				})
+			}
+		]
 	},
 	plugins: [
 		new htmlplugin(
-			{
-				minify: {
-					removeAttributeQuotes: true
-				},
-				hash: true,
-				template: "./src/page/index.html"
-			}
-		)
+			getHtmlConfig("index")
+		),
+		new htmlplugin(
+			getHtmlConfig("login")
+		),
+		new webpack.optimize.CommonsChunkPlugin({
+			name: "common",
+			filename: "js/base.js"
+		}),
+		new extractTextPlugin("css/[name].css")
 	],
 	devServer: {
 		contentBase: "./src/",
